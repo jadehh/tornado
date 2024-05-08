@@ -18,7 +18,7 @@ from tornado.options import define, options, parse_command_line
 from tornado.web import RequestHandler, Application
 
 import asyncio
-import random
+import secrets
 
 # choose a random port to avoid colliding with TIME_WAIT sockets left over
 # from previous runs.
@@ -54,7 +54,7 @@ def main():
 
 async def run():
     app = Application([("/", RootHandler)])
-    port = random.randrange(options.min_port, options.max_port)
+    port = secrets.SystemRandom().randrange(options.min_port, options.max_port)
     app.listen(port, address="127.0.0.1")
     args = ["ab"]
     args.extend(["-n", str(options.n)])
